@@ -19,5 +19,8 @@
     <ClInclude Include="Include\graphicsBenchmark.h">
       <Filter>Include</Filter>
     </ClInclude>
+    <ClInclude Include="Include\GLHooks.h">
+      <Filter>Include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
