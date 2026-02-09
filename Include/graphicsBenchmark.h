@@ -7,7 +7,8 @@
 extern "C" {
 #endif
 
-	void frameTick();
+	void timeFrame();
+	void printStats();
 	double getFrameTime();
 	unsigned int getDrawCallCount();
 	

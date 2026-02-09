@@ -1,5 +1,6 @@
 #include "graphicsBenchmark.h"
 #include <time.h>
+#include <stdio.h>
 
 #ifdef _WIN32
 
@@ -56,4 +57,42 @@ void frameEnd() {
 
 }
 
-void drawCall() { drawCalls++; }
+void timeFrame(){
+
+	if (isFrame) {
+
+		frameEnd();
+
+	}
+	frameBegin();
+
+}
+
+void printStats() {
+
+	printf("\rFrame Time: %.2f ms (%.0f FPS) | Draw Calls: %u / frame (%.2f M / sec)    ",
+		frameTime,
+		(1000.0 / frameTime),
+		drawCalls,
+		drawCalls * (1000.0 / frameTime));
+	fflush(stdout);
+
+}
+
+void drawCall() {
+
+	drawCalls++; 
+
+}
+
+double getFrameTime() {
+
+	return frameTime;
+
+}
+
+unsigned int getDrawCallCount() {
+
+	return drawCalls;
+
+}
