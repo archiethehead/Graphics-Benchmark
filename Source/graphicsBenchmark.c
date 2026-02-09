@@ -18,6 +18,7 @@ static struct timespec frameStartTime, frameEndTime;
 static unsigned int drawCalls = 0;
 static double frameTime = 0.0;
 static int isFrame = 0;
+static int isPrinting = 0;
 
 void frameBegin() {
 
@@ -63,6 +64,20 @@ void timeFrame(){
 
 		frameEnd();
 
+		if (isPrinting) {
+
+			printf("\rFrame Time: %.2f ms (%.0f FPS) | Draw Calls: %u / frame (%.2f M / sec)    ",
+				frameTime,
+				(1000.0 / frameTime),
+				drawCalls,
+				drawCalls * (1000.0 / frameTime));
+
+			fflush(stdout);
+
+			isPrinting = 0;
+
+		}
+
 	}
 	frameBegin();
 
@@ -70,12 +85,7 @@ void timeFrame(){
 
 void printStats() {
 
-	printf("\rFrame Time: %.2f ms (%.0f FPS) | Draw Calls: %u / frame (%.2f M / sec)    ",
-		frameTime,
-		(1000.0 / frameTime),
-		drawCalls,
-		drawCalls * (1000.0 / frameTime));
-	fflush(stdout);
+	isPrinting = 1;
 
 }
 
