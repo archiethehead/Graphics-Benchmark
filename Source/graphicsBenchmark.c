@@ -33,7 +33,26 @@ void frameBegin() {
 
 #endif
 
-	isFrame = isFrame = 1;
+	isFrame = 1;
+
+}
+
+void frameEnd() {
+
+#ifdef _WIN32
+
+	QueryPerformanceCounter(&frameEndTime);
+	frameTime = (double)(frameEndTime.QuadPart - frameStartTime.QuadPart) * 1000.0 / frequency.QuadPart;
+
+#else
+
+	clock_gettime(CLOCK_MONOTONIC, &frameEndTime);
+	frameTime = (frameEndTime.tv_sec - frameStartTime.tv_sec) * 1000.0 + (frameEndTime.tv_nsec - frameStartTime.tv_nsec) / 1e6;
+
+
+#endif
+
+	isFrame = 0;
 
 }
 
