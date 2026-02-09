@@ -56,3 +56,4 @@ dkms.conf
 
 # MSVS22
 *.vs/
+*Intermediate/
