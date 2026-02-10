@@ -2,7 +2,7 @@ static const char* vertextShaderText =
 "#version 330\n"
 "uniform mat4 MVP;\n"
 "in vec3 vCol;\n"
-"in vec2 vPol;\n"
+"in vec2 vPos;\n"
 "out vec3 color;\n"
 "void main()\n"
 "{\n"

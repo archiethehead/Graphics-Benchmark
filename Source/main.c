@@ -2,13 +2,12 @@
 // OpenGL
 #include "GLAD/glad.h"
 #include "GLFW/include/GLFW/glfw3.h"
-#include "GLM/glm/glm.hpp"
+#include "linmath.h"
 #include "triangle.vert"
 #include "triangle.frag"
 
 // Standard Libraries
-#include <math.h>
-#include <stdlib.h>
+#include <stdio.h>
 #include <stddef.h>
 
 // Graphics Benchmark
@@ -16,8 +15,8 @@
 
 typedef struct Vertext {
 
-	glm::vec2 pos;
-	glm::vec3 colour;
+	vec2 pos;
+	vec3 colour;
 
 } Vertex;
 
@@ -31,21 +30,37 @@ static const Vertex vertices[3] = {
 
 int main() {
 
-	glfwInit();
+	if (!glfwInit()) {
+
+		fprintf(stderr, "GLFW init failed\n");
+		return -1;
+
+	}
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	GLFWwindow* window = glfwCreateWindow(640, 480, "Graphics Benchmark Test Case", NULL, NULL);
+
 	if (!window) {
-		
+
+		fprintf(stderr, "Window creation failed\n");
 		glfwTerminate();
-		exit(EXIT_FAILURE);
+		return -1;
 
 	}
 
 	glfwMakeContextCurrent(window);
+
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+
+		fprintf(stderr, "GLAD init failed\n");
+		return -1;
+
+	}
+
 	glfwSwapInterval(1);
 
 	GLuint vertex_buffer;
@@ -70,6 +85,42 @@ int main() {
 	const GLint vposLocation = glGetAttribLocation(program, "vPos");
 	const GLint vcolLocation = glad_glGetAttribLocation(program, "vCol");
 
+	GLuint vertexArray;
+	glGenVertexArrays(1, &vertexArray);
+	glBindVertexArray(vertexArray);
+	glEnableVertexAttribArray(vposLocation);
+	glVertexAttribPointer(vposLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),	(void*) offsetof(Vertex, pos));
+	
+	glEnableVertexAttribArray(vcolLocation);
+	glVertexAttribPointer(vcolLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(Vertex, colour));
+
+	while (!glfwWindowShouldClose(window)) {
+	
+		timeFrame();
+		printStats();
+
+		int width, height;
+		glfwGetFramebufferSize(window, &width, &height);
+		const float ratio = width / (float) height;
+
+		glViewport(0, 0, width, height);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		mat4x4 m, p, mvp;
+		mat4x4_identity(m);
+		mat4x4_rotate_Z(m, m, (float) glfwGetTime());
+		mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
+		mat4x4_mul(mvp, p, m);
+
+		glUseProgram(program);
+		glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, (const GLfloat*) &mvp);
+		glBindVertexArray(vertexArray);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+	
+	}
 
 	return 0;
 
