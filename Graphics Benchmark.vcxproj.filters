@@ -14,7 +14,7 @@
     <ClCompile Include="Source\graphicsBenchmark.c">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\main.c">
+    <ClCompile Include="Source\main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
