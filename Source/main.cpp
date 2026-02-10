@@ -3,6 +3,8 @@
 #include "GLAD/glad.h"
 #include "GLFW/include/GLFW/glfw3.h"
 #include "GLM/glm/glm.hpp"
+#include "triangle.vert"
+#include "triangle.frag"
 
 // Standard Libraries
 #include <math.h>
@@ -27,27 +29,6 @@ static const Vertex vertices[3] = {
 
 };
 
-static const char* vertextShaderText =
-"#version 330\n"
-"uniform mat4 MVP;\n"
-"in vec3 vCol;\n"
-"in vec2 vPol;\n"
-"out vec3 color;\n"
-"void main()\n"
-"{\n"
-"    gl_Position = MVP * vec4(vPos, 0.0, 1.0);\n"
-"    color = vCol;\n"
-"}\n";
-
-static const char* fragmentShaderText =
-"#version 330\n"
-"in vec3 color;\n"
-"out vec4 fragment;\n"
-"void main()\n"
-"{\n"
-"    fragment = vec4(color, 1.0);\n"
-"}\n";
-
 int main() {
 
 	glfwInit();
@@ -66,6 +47,28 @@ int main() {
 
 	glfwMakeContextCurrent(window);
 	glfwSwapInterval(1);
+
+	GLuint vertex_buffer;
+	glGenBuffers(1, &vertex_buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	const GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertexShader, 1, &vertextShaderText, NULL);
+	glCompileShader(vertexShader);
+
+	const GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragmentShader, 1, &fragmentShaderText, NULL);
+	glCompileShader(fragmentShader);
+
+	const GLuint program = glCreateProgram();
+	glAttachShader(program, vertexShader);
+	glAttachShader(program, fragmentShader);
+	glLinkProgram(program);
+
+	const GLint mvpLocation = glGetUniformLocation(program, "MVP");
+	const GLint vposLocation = glGetAttribLocation(program, "vPos");
+	const GLint vcolLocation = glad_glGetAttribLocation(program, "vCol");
 
 
 	return 0;

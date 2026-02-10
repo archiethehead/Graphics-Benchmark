@@ -17,6 +17,9 @@
     <ClCompile Include="Source\main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="External\GLAD\glad.c">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\graphicsBenchmark.h">
@@ -25,5 +28,16 @@
     <ClInclude Include="Include\GLHooks.h">
       <Filter>Include</Filter>
     </ClInclude>
+    <ClInclude Include="External\GLAD\glad.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\triangle.frag">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="Source\triangle.vert">
+      <Filter>Source</Filter>
+    </None>
   </ItemGroup>
 </Project>
