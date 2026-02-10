@@ -8,7 +8,7 @@ The repository can be cloned with the following command:
 A Microsoft Visual Studio 2022 Solution is provided for compilation of the source if testing is needed, but use of the library should be done with the uncompiled header, in assistance of other programs. The system dependant libraries are accounted for and as such, this library is usable on Windows, MacOS, and Linux.
 
 ## Quick Start
-Simply include the library in your program (AFTER your OpenGL imports, and wherever draw calling occurs), call the frameTime() function in the main loop (or frameBegin() and frameEnd() if you're just snapshotting a 3D environment), and use printStates() to view the data that was collected. The library is written in C, meaning because C++ is a superset of C, this library can be used with any C or C++ OpenGL program. A demo program utilising the GLFW triangle rotation template is provided to show how functionality with this llibrary should be performed.
+Simply include the library in your program (AFTER your OpenGL imports, and wherever draw calling occurs), call the frameTime() function in the main loop (or frameBegin() and frameEnd() if you're just snapshotting a 3D environment), and use printStats() to view the data that was collected. The library is written in C, meaning because C++ is a superset of C, this library can be used with any C or C++ OpenGL program. A demo program utilising the GLFW triangle rotation template is provided to show how functionality with this llibrary should be performed.
 
 ## Contributors
 Mr. Archie T. Healy - archiehealy06@gmail.com
